@@ -6,7 +6,7 @@ interface StylesMapping {
 
 export const styles: StylesMapping = {
   responsive: 'overflow-x-auto',
-  table: 'min-w-full',
+  table: 'w-full',
   left: 'text-left',
   center: 'text-center',
   right: 'text-right',
