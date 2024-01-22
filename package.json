@@ -28,7 +28,8 @@
     "test": "jest --verbose",
     "webpack:production": "webpack --config=./webpack.config.ts --env mode=production",
     "prepublishOnly": "npm run lint && npm run build",
-    "versioning": "./publish.sh"
+    "versioning": "./publish.sh",
+    "export": "node dist/export.js"
   },
   "author": "ArchitectureX",
   "license": "MIT",

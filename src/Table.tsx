@@ -1,6 +1,5 @@
-import React, { FC, useState } from 'react'
-
-import { styles } from './styles'
+export default () => `import React, { FC, useState } from 'react'
+import cx from '@architecturex/utils.cx'
 
 interface TableProps {
   headers: string[]
@@ -16,15 +15,15 @@ interface TableProps {
 }
 
 const defaultColors = {
-  headerBgColor: styles.headerBgColor,
-  rowColor: styles.rowColor,
-  altRowColor: styles.altRowColor
+  headerBgColor: 'bg-gray-50',
+  rowColor: 'bg-white',
+  altRowColor: 'bg-gray-100'
 }
 
 const alignmentClasses = {
-  left: styles.left,
-  center: styles.center,
-  right: styles.right
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right'
 }
 
 const Table: FC<TableProps> = ({
@@ -70,16 +69,17 @@ const Table: FC<TableProps> = ({
 
   return (
     <div>
-      <div className={styles.responsive}>
-        <table className={styles.table}>
+      <div className="overflow-x-auto">
+        <table className="w-full">
           <thead>
             <tr className={headerBgColor}>
               {headers.map((header, idx) => (
                 <th
                   key={idx}
-                  className={`${styles.headerRow} ${
+                  className={cx.join(
+                    'py-2 px-4 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer',
                     alignmentClasses[columnAlignments[idx] || 'left']
-                  }`}
+                  )}
                   onClick={() => onHeaderClick(idx)}
                 >
                   {header}
@@ -94,17 +94,20 @@ const Table: FC<TableProps> = ({
             {currentRows.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className={`${striped && rowIndex % 2 === 0 ? altRowColor : rowColor} ${
-                  hoverHighlight ? styles.rowHover : ''
-                } cursor-pointer`}
+                className={cx.join(
+                  striped && rowIndex % 2 === 0 ? altRowColor : rowColor,
+                  hoverHighlight ? 'hover:bg-gray-200' : '',
+                  'cursor-pointer'
+                )}
                 onClick={() => onRowClick && onRowClick(row, rowIndex)}
               >
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className={`${styles.bodyRow} ${
+                    className={cx.join(
+                      'py-2 px-4 border-b border-gray-200',
                       alignmentClasses[columnAlignments[cellIndex] || 'left']
-                    }`}
+                    )}
                   >
                     {cell}
                   </td>
@@ -116,8 +119,8 @@ const Table: FC<TableProps> = ({
       </div>
 
       {sortedRows.length > rowsPerPage && (
-        <div className={styles.pagination}>
-          <span className={styles.entries}>
+        <div className="mt-4 flex justify-between items-center">
+          <span className="text-xs text-gray-600">
             Showing {startIndex + 1} to {Math.min(endIndex, sortedRows.length)} of{' '}
             {sortedRows.length} entries
           </span>
@@ -125,14 +128,14 @@ const Table: FC<TableProps> = ({
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className={styles.previous}
+              className="px-3 py-1 text-sm border rounded-l hover:bg-gray-200"
             >
               Previous
             </button>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className={styles.next}
+              className="px-3 py-1 text-sm border-t border-b border-r rounded-r hover:bg-gray-200"
             >
               Next
             </button>
@@ -144,3 +147,4 @@ const Table: FC<TableProps> = ({
 }
 
 export default Table
+`
